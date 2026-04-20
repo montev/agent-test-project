@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #121212;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+        }
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        canvas {
+            border: 2px solid #333;
+            border-radius: 4px;
+        }
+        #controls {
+            font-size: 13px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="score">Score: 0</div>
+        <canvas id="game"></canvas>
+        <div id="controls">Arrow keys: move &middot; P: pause &middot; Enter: restart</div>
+    </div>
+    <script type="module" src="/dist/main.js"></script>
+</body>
+</html>
