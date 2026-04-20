@@ -23,7 +23,12 @@ public class GameServer {
 
         server.createContext("/api/state", this::handleState);
         server.createContext("/api/action", this::handleAction);
+        server.createContext("/api/tick", this::handleTick);
         server.createContext("/", this::handleStatic);
+    }
+
+    public void setTestMode(boolean testMode) {
+        engine.setTestMode(testMode);
     }
 
     public void start() {
@@ -76,6 +81,20 @@ public class GameServer {
 
         byte[] response = "{\"ok\":true}".getBytes();
         setCorsHeaders(exchange);
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+        exchange.sendResponseHeaders(200, response.length);
+        exchange.getResponseBody().write(response);
+        exchange.close();
+    }
+
+    private void handleTick(HttpExchange exchange) throws IOException {
+        if (!"POST".equals(exchange.getRequestMethod())) {
+            exchange.sendResponseHeaders(405, -1);
+            exchange.close();
+            return;
+        }
+        engine.manualTick();
+        byte[] response = engine.getStateJson().getBytes();
         exchange.getResponseHeaders().set("Content-Type", "application/json");
         exchange.sendResponseHeaders(200, response.length);
         exchange.getResponseBody().write(response);

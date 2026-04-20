@@ -42,8 +42,20 @@ public class GameEngine {
         paused = false;
     }
 
+    private boolean testMode;
+
     public void start() {
-        scheduler.scheduleAtFixedRate(this::tick, TICK_MS, TICK_MS, TimeUnit.MILLISECONDS);
+        if (!testMode) {
+            scheduler.scheduleAtFixedRate(this::tick, TICK_MS, TICK_MS, TimeUnit.MILLISECONDS);
+        }
+    }
+
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
+    }
+
+    public synchronized void manualTick() {
+        tick();
     }
 
     private synchronized void tick() {
@@ -85,9 +97,7 @@ public class GameEngine {
     }
 
     public synchronized void restart() {
-        if (gameOver) {
-            initGame();
-        }
+        initGame();
     }
 
     public synchronized String getStateJson() {

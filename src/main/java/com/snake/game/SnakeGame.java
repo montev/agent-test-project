@@ -6,13 +6,22 @@ public class SnakeGame {
 
     public static void main(String[] args) throws Exception {
         int port = DEFAULT_PORT;
-        if (args.length > 0) {
-            try {
-                port = Integer.parseInt(args[0]);
-            } catch (NumberFormatException ignored) {
-                // use default
+        boolean testMode = false;
+        for (String arg : args) {
+            if ("--test".equals(arg)) {
+                testMode = true;
+            } else {
+                try {
+                    port = Integer.parseInt(arg);
+                } catch (NumberFormatException ignored) {
+                    // use default
+                }
             }
         }
-        new GameServer(port).start();
+        GameServer server = new GameServer(port);
+        if (testMode) {
+            server.setTestMode(true);
+        }
+        server.start();
     }
 }
